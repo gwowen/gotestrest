@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // struct containing all the properties
@@ -36,11 +38,13 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 // routing
 func handleRequests() {
-	http.HandleFunc("/", homePage)
-	http.HandleFunc("/all", returnAllArticles)
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/", homePage)
+	myRouter.HandleFunc("/all", returnAllArticles)
+	log.Fatal(http.ListenAndServe(":10000", nil))
 }
 
 func main() {
+	fmt.Println("Rest API v2.0 - Mux Routers")
 	handleRequests()
 }
